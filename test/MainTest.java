@@ -61,4 +61,20 @@ class MainTest {
   }
 
   // TODO: Create your test(s) below. /////////////////////////////////////////
+
+    @Test
+    void apostrophe() {
+      // This is a bug with getId() that causes a SQL exception to be thrown whenever the
+        // program reads an apostrophe. Since apostrophies double as single quotes, they
+        // mess up the SQL query's syntax, causing the program to crash.
+        assertDoesNotThrow(
+                () -> {
+                    Main.reset();
+                    Connection db = Main.createConnection();
+                    Main.main(new String[]{"./sample-texts/apostrophe.txt"});
+                    int wordCount = Main.getWordCount(db);
+                    assertFalse(wordCount == 0);
+                }
+        );
+    }
 }
